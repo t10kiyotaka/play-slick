@@ -1,17 +1,22 @@
 name := """play-slick"""
 organization := "com.example"
 
-version := "1.0-SNAPSHOT"
+version := "2.7.x"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.8"
 
 libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.2" % Test
+libraryDependencies += "com.typesafe.play" %% "play-slick" % "4.0.2"
+libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "4.0.2"
 
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.example.controllers._"
+libraryDependencies += "com.h2database" % "h2" % "1.4.199"
 
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"
+libraryDependencies += specs2 % Test
+
+scalacOptions ++= Seq(
+  "-feature",
+  "-deprecation",
+  "-Xfatal-warnings"
+)
