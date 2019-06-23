@@ -1,11 +1,11 @@
 package controllers
 
 import javax.inject._
-import models.PersonRepository
+import models.{Person, PersonRepository}
 import play.api._
 import play.api.mvc._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -21,5 +21,27 @@ class HomeController @Inject()(
     repository.list().map { people =>
       Ok(views.html.index("People Data.", people))
     }
+  }
+
+  def add() = Action { implicit request =>
+    Ok(views.html.add(
+      "Please write form",
+      Person.personForm
+    ))
+  }
+
+  def create() = Action async { implicit request =>
+    Person.personForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(Ok(views.html.add("error.", errorForm)))
+      },
+      person => {
+        repository.create(person.name, person.mail, person.tel)
+        Future.successful(Redirect(routes.HomeController.index()))
+//        repository.create(person.name, person.mail, person.tel).map { _ =>
+//          Redirect(routes.HomeController.index())
+//        }
+      }
+    )
   }
 }
