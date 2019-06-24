@@ -32,6 +32,12 @@ class PersonRepository @Inject() (
     people.result
   }
 
+  def get(id: Int): Future[Person] = db.run {
+    people.filter(_.id === id)
+      .result
+      .head
+  }
+
   def create(name: String, mail: String, tel: String): Future[Int] = db.run {
     people += Person(0, name, mail, tel)
   }

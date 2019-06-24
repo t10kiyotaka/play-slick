@@ -6,6 +6,7 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 GET     /add                        controllers.HomeController.add()
+GET     /show/:id                   controllers.HomeController.show(id: Int)
 GET     /create                     controllers.HomeController.create()
 
 
