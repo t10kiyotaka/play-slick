@@ -44,10 +44,17 @@ class HomeController @Inject()(
       person => {
         repository.create(person.name, person.mail, person.tel)
         Future.successful(Redirect(routes.HomeController.index()))
-//        repository.create(person.name, person.mail, person.tel).map { _ =>
-//          Redirect(routes.HomeController.index())
-//        }
       }
     )
+  }
+
+  def edit(id: Int) = Action async { implicit  request =>
+    repository.get(id).map { person =>
+      val fdata: Form[PersonForm] = Person.personForm
+        .fill(PersonForm(person.name, person.mail, person.tel))
+      Ok(views.html.edit(
+        "Edit Person.", fdata, id
+      ))
+    }
   }
 }
