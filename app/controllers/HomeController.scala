@@ -69,4 +69,10 @@ class HomeController @Inject()(
       }
     )
   }
+
+  def delete(id: Int) = Action async { implicit request =>
+    for {
+      _ <- repository.delete(id)
+    } yield Redirect(routes.HomeController.index())
+  }
 }
