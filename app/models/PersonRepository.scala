@@ -49,4 +49,10 @@ class PersonRepository @Inject() (
   def delete(id: Int): Future[Int] = db.run {
     people.filter(_.id === id).delete
   }
+
+  def filterByNameOrMail(str: String): Future[Seq[Person]] = db.run {
+    people.filter{ row =>
+      (row.name like "%" + str + "%") || (row.mail like "%" + str + "%")
+    }.result
+  }
 }

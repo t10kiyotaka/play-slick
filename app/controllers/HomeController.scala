@@ -20,7 +20,7 @@ class HomeController @Inject()(
 
   def index() = Action.async { implicit request =>
     repository.list().map { people =>
-      Ok(views.html.index("People Data.", people))
+      Ok(views.html.index("People Data.", people, Person.personFindForm))
     }
   }
 
@@ -61,8 +61,7 @@ class HomeController @Inject()(
 
   def update(id: Int) = Action async { implicit  request =>
     Person.personForm.bindFromRequest.fold(
-      errorForm =>
-        Future.successful(Ok(views.html.edit("error.", errorForm, id))),
+      errorForm => Future.successful(Ok(views.html.edit("errors", Person.personForm, id))),
       person => {
         repository.update(id, person.name, person.mail, person.tel)
         Future.successful(Redirect(routes.HomeController.index))
@@ -75,4 +74,17 @@ class HomeController @Inject()(
       _ <- repository.delete(id)
     } yield Redirect(routes.HomeController.index())
   }
+
+  def search() = Action async { implicit request =>
+    Person.personFindForm.bindFromRequest.fold(
+      errorForm => for {
+        people <- repository.list()
+      } yield Ok(views.html.index("People Data", people, Person.personFindForm)),
+      input => for {
+        people <- repository.list()
+        result <- repository.filterByNameOrMail(input.query)
+      } yield Ok(views.html.index("People Data", people, Person.personFindForm, result))
+    )
+  }
+
 }

@@ -1,6 +1,8 @@
 @(
   message: String,
-  data: Seq[models.Person]
+  data: Seq[Person],
+  form: Form[PersonFind],
+  searchResult: Seq[Person] = Seq.empty
 )(implicit request: MessagesRequestHeader)
 
 
@@ -9,6 +11,20 @@
   <ul>
     @for(item <- data) {
       <li>@item.id, @item.name, [@item.mail, @item.tel]</li>
+    }
+  </ul>
+
+  <p>Search People by name or mail</p>
+  @helper.form(action = routes.HomeController.search()) {
+    @helper.CSRF.formField
+    @helper.inputText(form("query"))
+    <button>Search</button>
+  }
+  <hr>
+  <p>Result:</p>
+  <ul>
+    @for(person <- searchResult){
+      <li>@person.id: @person.name [@person.mail]</li>
     }
   </ul>
 }

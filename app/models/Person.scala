@@ -11,7 +11,14 @@ object Person {
       "tel" -> text,
     )(PersonForm.apply)(PersonForm.unapply)
   }
+
+  val personFindForm: Form[PersonFind] = Form {
+    mapping(
+      "query" -> text
+    )(PersonFind.apply)(PersonFind.unapply)
+  }
 }
 
 case class Person(id: Int, name: String, mail: String, tel: String)
 case class PersonForm(name: String, mail: String, tel: String)
+case class PersonFind(query: String)
