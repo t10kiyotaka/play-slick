@@ -1,11 +1,12 @@
 @(
+  baseInfo: ViewBaseInfo,
   message: String,
   form:    Form[PersonForm],
   id:      Int
 )(implicit request: MessagesRequestHeader)
 
 
-@main("Edit Person", "Edit") {
+@main(baseInfo) {
   <p>@Html(message)</p>
   @helper.form(action = routes.HomeController.update(id)) {
     @helper.CSRF.formField

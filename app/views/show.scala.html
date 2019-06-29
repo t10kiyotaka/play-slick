@@ -1,10 +1,11 @@
 @(
+  baseInfo: ViewBaseInfo,
   message: String,
   person:  Person
 )(implicit request: MessagesRequestHeader)
 
 
-@main("Show Person", "Show") {
+@main(baseInfo) {
   <p>@Html(message)</p>
   <ul>
     <li>ID: @person.id</li>

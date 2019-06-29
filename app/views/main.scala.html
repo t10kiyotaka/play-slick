@@ -4,31 +4,27 @@
 * two arguments, a `String` for the title of the page and an `Html`
 * object to insert into the body of the page.
 *@
-@(
-  title:  String,
-  header: String,
-  footer: String = "copyright 2018."
-)(content: Html)
+@(viewBaseInfo: ViewBaseInfo)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-    <title>@title</title>
+    <title>@viewBaseInfo.title</title>
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
   </head>
 
   <body>
     <header class="row">
-      <div class="header">@header</div>
-      <h1>@title</h1>
+      <div class="header">@viewBaseInfo.header</div>
+      <h1>@viewBaseInfo.title</h1>
     </header>
     <article class="row">
       @content
     </article>
     <footer class="row">
-      <p>@footer</p>
+      <p>@viewBaseInfo.footer</p>
     </footer>
 
     <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>

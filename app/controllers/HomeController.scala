@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import models.{Person, PersonForm, PersonRepository}
+import models.{Person, PersonForm, PersonRepository, ViewBaseInfo}
 import play.api.data.Form
 import play.api.mvc._
 
@@ -19,18 +19,19 @@ class HomeController @Inject()(
 
   def index() = Action.async { implicit request =>
     repository.list().map { people =>
-      Ok(views.html.index("People Data.", people, Person.personFindForm))
+      Ok(views.html.index(ViewBaseInfo.from("index"), "People Data.", people, Person.personFindForm))
     }
   }
 
   def show(id: Int) = Action.async { implicit requst =>
     repository.get(id).map { person =>
-      Ok(views.html.show("People Data.", person))
+      Ok(views.html.show(ViewBaseInfo.from("show"), "People Data.", person))
     }
   }
 
   def add() = Action { implicit request =>
     Ok(views.html.add(
+      ViewBaseInfo.from("add"),
       "Please write form",
       Person.personForm
     ))
@@ -39,7 +40,7 @@ class HomeController @Inject()(
   def create() = Action async { implicit request =>
     Person.personForm.bindFromRequest.fold(
       errorForm => {
-        Future.successful(Ok(views.html.add("error.", errorForm)))
+        Future.successful(Ok(views.html.add(ViewBaseInfo.from("add"), "error.", errorForm)))
       },
       person => {
         repository.create(person.name, person.mail, person.tel)
@@ -53,14 +54,16 @@ class HomeController @Inject()(
       val fdata: Form[PersonForm] = Person.personForm
         .fill(PersonForm(person.name, person.mail, person.tel))
       Ok(views.html.edit(
-        "Edit Person.", fdata, id
+        ViewBaseInfo.from("edit"), "Edit Person.", fdata, id
       ))
     }
   }
 
   def update(id: Int) = Action async { implicit  request =>
     Person.personForm.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.edit("errors", Person.personForm, id))),
+      errorForm => Future.successful(
+        Ok(views.html.edit(ViewBaseInfo.from("edit"), "errors", Person.personForm, id))
+      ),
       person => {
         repository.update(id, person.name, person.mail, person.tel)
         Future.successful(Redirect(routes.HomeController.index))
@@ -78,11 +81,11 @@ class HomeController @Inject()(
     Person.personFindForm.bindFromRequest.fold(
       errorForm => for {
         people <- repository.list()
-      } yield Ok(views.html.index("People Data", people, Person.personFindForm)),
+      } yield Ok(views.html.index(ViewBaseInfo.from("index"), "People Data", people, Person.personFindForm)),
       input => for {
         people <- repository.list()
         result <- repository.filterByNameOrMail(input.query)
-      } yield Ok(views.html.index("People Data", people, Person.personFindForm, result))
+      } yield Ok(views.html.index(ViewBaseInfo.from("index"), "People Data", people, Person.personFindForm, result))
     )
   }
 

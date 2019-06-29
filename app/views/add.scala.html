@@ -1,6 +1,6 @@
-@(message: String, form: Form[PersonForm])(implicit request: MessagesRequestHeader)
+@(baseInfo: ViewBaseInfo, message: String, form: Form[PersonForm])(implicit request: MessagesRequestHeader)
 
-@main("Add, Person", "Add") {
+@main(baseInfo) {
   <p>@message</p>
   @helper.form(action = routes.HomeController.create()) {
     @helper.CSRF.formField

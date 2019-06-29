@@ -1,4 +1,5 @@
 @(
+  baseInfo: ViewBaseInfo,
   message:      String,
   data:         Seq[Person],
   form:         Form[PersonFind],
@@ -6,7 +7,7 @@
 )(implicit request: MessagesRequestHeader)
 
 
-@main("Index Page", "Hello") {
+@main(baseInfo) {
   <p>@Html(message)</p>
   <ul>
     @for(item <- data) {
