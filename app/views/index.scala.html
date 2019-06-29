@@ -11,18 +11,25 @@
   <p>@Html(message)</p>
   <ul>
     @for(item <- data) {
-      <li>@item.id, @item.name, [@item.mail, @item.tel]</li>
+      <li>
+        @item.id, @item.name, [@item.mail, @item.tel]
+        <button><a href="/show/@item.id">Show</a></button>
+      </li>
     }
   </ul>
 
-  <p>Search People by name or mail</p>
+  <button><a href="/add">Add new person</a></button>
+
+  <hr>
+
+  <h2>Search People by name or mail</h2>
   @helper.form(action = routes.HomeController.search()) {
     @helper.CSRF.formField
     @helper.inputText(form("query"))
     <button>Search</button>
   }
-  <hr>
-  <p>Result:</p>
+
+  <p>Search Result</p>
   <ul>
     @for(person <- searchResult){
       <li>@person.id: @person.name [@person.mail]</li>
