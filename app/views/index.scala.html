@@ -1,12 +1,12 @@
 @(
-  message: String,
-  data: Seq[Person],
-  form: Form[PersonFind],
+  message:      String,
+  data:         Seq[Person],
+  form:         Form[PersonFind],
   searchResult: Seq[Person] = Seq.empty
 )(implicit request: MessagesRequestHeader)
 
 
-@main("Index Page", "Hello", "copyright 2018.") {
+@main("Index Page", "Hello") {
   <p>@Html(message)</p>
   <ul>
     @for(item <- data) {

@@ -5,7 +5,7 @@
 )(implicit request: MessagesRequestHeader)
 
 
-@main("Edit Person", "Edit", "copyright 2018.") {
+@main("Edit Person", "Edit") {
   <p>@Html(message)</p>
   @helper.form(action = routes.HomeController.update(id)) {
     @helper.CSRF.formField
