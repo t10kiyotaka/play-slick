@@ -5,7 +5,7 @@ import play.api.data.Forms._
 
 object Person {
   val personForm: Form[PersonForm] = Form {
-    val regexForEmail = """[a-zA-Z0-9.+_-]+@[A-Z0-9.-]+\.[A-Z]"""
+    val regexForEmail = """[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+"""
     mapping(
       "name" -> nonEmptyText
         .verifying("3文字以上で入力してください", s => isGreaterThanN(s, 2))
