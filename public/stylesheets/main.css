@@ -34,3 +34,18 @@ footer {
   margin: 15px 0px;
   border-bottom: solid 1px #ddd;
 }
+
+.info {
+  color: cornflowerblue;
+  font-size: x-small;
+}
+
+dd.error {
+  color: crimson;
+}
+
+.flash-success {
+  border: 1px solid green;
+  background-color: aquamarine;
+  color: green;
+}

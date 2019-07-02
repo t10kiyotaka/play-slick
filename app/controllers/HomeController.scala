@@ -44,7 +44,10 @@ class HomeController @Inject()(
       },
       person => {
         repository.create(person.name, person.mail, person.tel)
-        Future.successful(Redirect(routes.HomeController.index()))
+        Future.successful(
+          Redirect(routes.HomeController.index())
+            .flashing("success" -> "Successfully created new person!")
+        )
       }
     )
   }

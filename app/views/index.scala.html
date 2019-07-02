@@ -8,6 +8,9 @@
 
 
 @main(baseInfo) {
+  @if(request.flash.get("success").nonEmpty){
+    <p class="flash-success">@request.flash.get("success")</p>
+  }
   <p>@Html(message)</p>
   <ul>
     @for(item <- data) {
