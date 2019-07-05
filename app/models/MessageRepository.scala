@@ -18,7 +18,7 @@ class MessageRepository @Inject() (
   import dbConfig._
   import profile.api._
 
-  private class MessageTable(tag: Tag) extends Table[Message](tag, "message") {
+  private class MessagesTable(tag: Tag) extends Table[Message](tag, "messages") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def personId = column[Int]("person_id")
     def message = column[String]("message")
@@ -28,7 +28,7 @@ class MessageRepository @Inject() (
       ((Message.apply _).tupled, Message.unapply)
   }
 
-  private val messages = TableQuery[MessageTable]
+  private val messages = TableQuery[MessagesTable]
 
   def list(): Future[Seq[Message]] = db.run {
     messages.result
