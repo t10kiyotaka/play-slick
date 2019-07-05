@@ -1,7 +1,7 @@
 @(
-  baseInfo: ViewBaseInfo,
+  baseInfo:     ViewBaseInfo,
   message:      String,
-  data:         Seq[Person],
+  personSeq:    Seq[Person],
   form:         Form[PersonFind],
   searchResult: Seq[Person] = Seq.empty
 )(implicit request: MessagesRequestHeader)
@@ -13,10 +13,15 @@
   }
   <p>@Html(message)</p>
   <ul>
-    @for(item <- data) {
+    @for(person <- personSeq) {
       <li>
-        @item.id, @item.name, [@item.mail, @item.tel]
-        <button><a href="/show/@item.id">Show</a></button>
+        @person.id, @person.name, [@person.mail, @person.tel]
+        <button><a href="@routes.HomeController.show(person.id)">Show</a></button>
+        <button><a href="@routes.HomeController.edit(person.id)">Edit</a></button>
+        @helper.form(action = routes.HomeController.delete(person.id)) {
+          @helper.CSRF.formField
+          <button>Delete</button>
+        }
       </li>
     }
   </ul>

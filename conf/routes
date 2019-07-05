@@ -9,8 +9,8 @@ GET     /add                        controllers.HomeController.add()
 GET     /show/:id                   controllers.HomeController.show(id: Int)
 GET     /create                     controllers.HomeController.create()
 GET     /edit/:id                   controllers.HomeController.edit(id: Int)
-POST    /update                     controllers.HomeController.update(id: Int)
-POST    /delete                     controllers.HomeController.delete(id: Int)
+POST    /update/:id                 controllers.HomeController.update(id: Int)
+POST    /delete/:id                 controllers.HomeController.delete(id: Int)
 POST    /search                     controllers.HomeController.search
 
 
