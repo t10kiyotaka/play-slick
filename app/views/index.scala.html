@@ -18,15 +18,17 @@
         @person.id, @person.name, [@person.mail, @person.tel]
         <button><a href="@routes.HomeController.show(person.id)">Show</a></button>
         <button><a href="@routes.HomeController.edit(person.id)">Edit</a></button>
-        @helper.form(action = routes.HomeController.delete(person.id)) {
-          @helper.CSRF.formField
-          <button>Delete</button>
-        }
+        <button>
+          @helper.form(action = routes.HomeController.delete(person.id)) {
+            @helper.CSRF.formField
+            Delete
+          }
+        </button>
       </li>
     }
   </ul>
 
-  <button><a href="/add">Add new person</a></button>
+  <button><a href="@routes.HomeController.add()">Add new person</a></button>
 
   <hr>
 
